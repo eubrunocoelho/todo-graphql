@@ -1,17 +1,11 @@
 {
     "compilerOptions": {
-        "target": "ES2019",
         "module": "CommonJS",
-        "lib": [
-            "ESNext",
-            "DOM"
-        ],
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "removeComments": true,
-        "strict": true
+        "esModuleInterop": true,
+        "target": "ES2021",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist"
     },
-    "include": [
-        "./src/**/*.ts"
-    ]
+    "lib": "ES2021"
 }

@@ -1,13 +1,18 @@
 import { gql } from 'apollo-server';
 
-export default gql`
-    type User {
-        id: Int
+const typeDefs = gql`
+    type Task {
         name: String
-        email: String
+        description: String
+        status: Boolean
+        createdAt: String
+        updatedAt: String
     }
 
     type Query {
-        users: [User]
+        task(ID: ID!): Task!
+        allTasks: [Task]
     }
 `;
+
+export default typeDefs;

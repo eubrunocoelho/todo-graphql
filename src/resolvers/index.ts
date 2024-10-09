@@ -1,7 +1,15 @@
-import data from '../data';
+import TaskEntity from '../entities/task.entity';
 
-export default {
+const resolvers = {
     Query: {
-        users: () => data,
+        async task(_, { ID }) {
+            return await TaskEntity.findById(ID);
+        },
+
+        async allTasks() {
+            return await TaskEntity.find();
+        },
     },
 };
+
+export default resolvers;

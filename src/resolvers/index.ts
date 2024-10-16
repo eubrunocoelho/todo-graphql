@@ -36,6 +36,13 @@ const resolvers = {
 
             return wasEdited;
         },
+
+        async deleteTask(_, { ID }) {
+            const wasDeleted = (await TaskEntity.deleteOne({ _id: ID }))
+                .deletedCount;
+
+            return wasDeleted;
+        },
     },
 };
 

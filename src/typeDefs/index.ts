@@ -23,6 +23,7 @@ const typeDefs = gql`
 
     type Mutation {
         createTask(taskInput: TaskInput): Task!
+        updateTask(ID: ID!, taskInput: TaskInput): Boolean
     }
 `;
 

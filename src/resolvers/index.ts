@@ -21,9 +21,18 @@ const resolvers = {
             const response = await createTask.save();
 
             return {
-                id: response.id,
+                ID: response.id,
                 ...response.toObject(),
             };
+        },
+
+        async updateTask(_, { ID, taskInput: { name, description, status } }) {
+            const { modifiedCount } = await TaskEntity.updateOne(
+                { _id: ID },
+                { name: name, description: description, status: status },
+            );
+
+            return modifiedCount;
         },
     },
 };

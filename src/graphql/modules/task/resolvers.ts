@@ -1,47 +1,24 @@
-import TaskEntity from '../../../entities/task.entity';
-
 const resolvers = {
     Query: {
-        async task(_, { ID }) {
-            return await TaskEntity.findById(ID);
+        async findTask(_, { ID }, context) {
+            return await context.TaskService.findOne(ID);
         },
 
-        async allTasks() {
-            return await TaskEntity.find();
+        async allTasks(_, args, context) {
+            return await context.TaskService.findAll();
         },
     },
     Mutation: {
-        async createTask(_, { taskInput: { name, description, status } }) {
-            const createTask = new TaskEntity({
-                name: name,
-                description: description,
-                status: status,
-            });
-
-            const response = await createTask.save();
-
-            return {
-                ID: response.id,
-                ...response.toObject(),
-            };
+        async createTask(_, { taskInput }, context) {
+            return await context.TaskService.create(taskInput);
         },
 
-        async updateTask(_, { ID, taskInput: { name, description, status } }) {
-            const wasUpdated = (
-                await TaskEntity.updateOne(
-                    { _id: ID },
-                    { name: name, description: description, status: status },
-                )
-            ).modifiedCount;
-
-            return wasUpdated;
+        async updateTask(_, { ID, taskInput }, context) {
+            return await context.TaskService.update(ID, taskInput);
         },
 
-        async deleteTask(_, { ID }) {
-            const wasDeleted = (await TaskEntity.deleteOne({ _id: ID }))
-                .deletedCount;
-
-            return wasDeleted;
+        async deleteTask(_, { ID }, context) {
+            return await context.TaskService.delete(ID);
         },
     },
 };

@@ -14,7 +14,7 @@ input TaskInput {
 }
 
 type Query {
-    task(ID: ID!): Task!
+    findTask(ID: ID!): Task!
     allTasks: [Task]
 }
 

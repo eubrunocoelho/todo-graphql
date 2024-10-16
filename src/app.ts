@@ -2,10 +2,15 @@ import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
 import { resolvers, typeDefs } from './graphql';
+import TaskService from './task/task.service';
 
 dotenv.config();
 
-const server = new ApolloServer({ resolvers, typeDefs });
+const server = new ApolloServer({
+    resolvers,
+    typeDefs,
+    context: () => ({ TaskService: new TaskService() }),
+});
 
 mongoose
     .connect(process.env.MONGO_DB_URL as string)

@@ -1,18 +1,16 @@
 import TaskEntity from './task.entity';
 
 class TaskService {
-    constructor(private taskEntity: typeof TaskEntity) {}
-
     public async findAll() {
-        return await this.taskEntity.find();
+        return await TaskEntity.find();
     }
 
     public async findOne(ID) {
-        return await this.taskEntity.findById(ID);
+        return await TaskEntity.findById(ID);
     }
 
     public async create(data) {
-        const create = new this.taskEntity({
+        const create = new TaskEntity({
             name: data.name,
             description: data.description,
             status: data.status,
@@ -26,9 +24,9 @@ class TaskService {
         };
     }
 
-    public async updateTask(ID, data) {
+    public async update(ID, data) {
         const wasUpdated = (
-            await this.taskEntity.updateOne(
+            await TaskEntity.updateOne(
                 { _id: ID },
                 {
                     name: data.name,
@@ -41,7 +39,7 @@ class TaskService {
         return wasUpdated;
     }
 
-    public async deleteTask(ID) {
+    public async delete(ID) {
         const wasDeleted = (await TaskEntity.deleteOne({ _id: ID }))
             .deletedCount;
 

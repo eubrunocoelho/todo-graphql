@@ -27,12 +27,14 @@ const resolvers = {
         },
 
         async updateTask(_, { ID, taskInput: { name, description, status } }) {
-            const { modifiedCount } = await TaskEntity.updateOne(
-                { _id: ID },
-                { name: name, description: description, status: status },
-            );
+            const wasEdited = (
+                await TaskEntity.updateOne(
+                    { _id: ID },
+                    { name: name, description: description, status: status },
+                )
+            ).modifiedCount;
 
-            return modifiedCount;
+            return wasEdited;
         },
     },
 };

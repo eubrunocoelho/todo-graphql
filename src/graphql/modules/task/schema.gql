@@ -1,8 +1,13 @@
+enum TaskStatusEnum {
+    TO_DO
+    DONE
+}
+
 type Task {
     _id: String
     name: String
     description: String
-    status: Boolean
+    status: TaskStatusEnum
     createdAt: String
     updatedAt: String
 }
@@ -10,7 +15,7 @@ type Task {
 input TaskInput {
     name: String
     description: String
-    status: Boolean
+    status: TaskStatusEnum
 }
 
 type Query {

@@ -1,13 +1,13 @@
 enum TaskStatusEnum {
-    TO_DO = 0,
-    DONE = 1,
+    TO_DO = 'TO_DO',
+    DONE = 'DONE',
 }
 
 class TaskDTO {
     ID: string;
     name: string;
     description: string;
-    status: boolean;
+    status: TaskStatusEnum;
 }
 
 export { TaskStatusEnum, TaskDTO };

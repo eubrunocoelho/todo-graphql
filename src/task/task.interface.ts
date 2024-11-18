@@ -1,7 +1,7 @@
 interface ITask extends Document {
     name: string;
     description: string;
-    status: boolean;
+    status: string;
     createdAt: Date;
     updatedAt: Date;
 }

@@ -4,7 +4,9 @@ import TaskEntity from './task.entity';
 
 class TaskService {
     public async findAll() {
-        return await TaskEntity.find();
+        const tasks = await TaskEntity.find();
+
+        return tasks;
     }
 
     public async findOne(ID) {
@@ -25,7 +27,7 @@ class TaskService {
         const create = new TaskEntity({
             name: task.name,
             description: task.description,
-            status: TaskStatusEnum.TO_DO,
+            status: task.status || TaskStatusEnum.TO_DO,
         });
 
         const response = await create.save();

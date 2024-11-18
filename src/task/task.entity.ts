@@ -1,14 +1,7 @@
 import { model, Schema } from 'mongoose';
+import ITask from './task.interface';
 
-interface Task extends Document {
-    name: string;
-    description: string;
-    status: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const taskSchema = new Schema<Task>(
+const taskSchema = new Schema<ITask>(
     {
         name: { type: String, required: true },
         description: { type: String, required: true },
@@ -19,6 +12,6 @@ const taskSchema = new Schema<Task>(
     },
 );
 
-const TaskEntity = model<Task>('Task', taskSchema);
+const TaskEntity = model<ITask>('Task', taskSchema);
 
 export default TaskEntity;

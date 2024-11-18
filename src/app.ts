@@ -1,7 +1,7 @@
-import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server';
-import mongoose from 'mongoose';
 import { resolvers, typeDefs } from './graphql';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import TaskService from './task/task.service';
 
 dotenv.config();

@@ -1,4 +1,5 @@
 import { ApolloError } from 'apollo-server';
+import { TaskDTO, TaskStatusEnum } from './task.dto';
 import TaskEntity from './task.entity';
 
 class TaskService {
@@ -20,11 +21,11 @@ class TaskService {
         return task;
     }
 
-    public async create(data) {
+    public async create(task: TaskDTO) {
         const create = new TaskEntity({
-            name: data.name,
-            description: data.description,
-            status: data.status,
+            name: task.name,
+            description: task.description,
+            status: TaskStatusEnum.TO_DO,
         });
 
         const response = await create.save();
@@ -35,14 +36,14 @@ class TaskService {
         };
     }
 
-    public async update(ID, data) {
+    public async update(ID, task: TaskDTO) {
         const wasUpdated = (
             await TaskEntity.updateOne(
                 { _id: ID },
                 {
-                    name: data.name,
-                    description: data.description,
-                    status: data.status,
+                    name: task.name,
+                    description: task.description,
+                    status: task.status,
                 },
             )
         ).modifiedCount;

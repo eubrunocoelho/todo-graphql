@@ -1,13 +1,7 @@
 const resolvers = {
     Query: {
         async findTask(_, { ID }, context) {
-            const task = await context.TaskService.findOne(ID);
-
-            if (!task) {
-                throw new Error(`Task with ID ${ID} not found.`);
-            }
-
-            return task;
+            return await context.TaskService.findOne(ID);
         },
 
         async allTasks(_, args, context) {

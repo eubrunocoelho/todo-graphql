@@ -1,3 +1,4 @@
+import { ApolloError } from 'apollo-server';
 import TaskEntity from './task.entity';
 
 class TaskService {
@@ -6,7 +7,17 @@ class TaskService {
     }
 
     public async findOne(ID) {
-        return await TaskEntity.findById(ID);
+        const task = await TaskEntity.findById(ID);
+
+        if (!task) {
+            throw new ApolloError(
+                `Task with ID ${ID} not found.`,
+                'TASK_NOT_FOUND',
+                { ID },
+            );
+        }
+
+        return task;
     }
 
     public async create(data) {

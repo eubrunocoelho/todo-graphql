@@ -14,6 +14,10 @@ const server = new ApolloServer({
     formatError: (error: GraphQLError) => {
         const { message, extensions } = error;
 
+        if (extensions?.exception?.stacktrace) {
+            delete extensions.exception.stacktrace;
+        }
+
         return {
             message,
             code: extensions?.code || 'INTERNAL_SERVER_ERROR',

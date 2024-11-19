@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 
-async function validateDTO(dto: any, dtoClass: any) {
+const validateDTO = async <T extends object>(dto: T, dtoClass: { new (): T }): Promise<void> => {
     const object = plainToInstance(dtoClass, dto);
     const errors = await validate(object);
 
@@ -15,6 +15,6 @@ async function validateDTO(dto: any, dtoClass: any) {
 
         throw new ApolloError(formattedErrors.join('; '), 'VALIDATION_ERRORS');
     }
-}
+};
 
 export default validateDTO;

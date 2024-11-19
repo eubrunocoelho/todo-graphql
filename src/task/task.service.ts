@@ -4,16 +4,17 @@ import validateDTO from '../utils/validation.utils';
 
 import TaskDTO from './task.dto';
 import TaskEntity from './task.entity';
+import ITask from './task.interface';
 import TaskStatusEnum from './task.status.enum';
 
 class TaskService {
-    public async findAll() {
+    public async findAll(): Promise<ITask[]> {
         const tasks = await TaskEntity.find();
 
         return tasks;
     }
 
-    public async findOne(ID) {
+    public async findOne(ID): Promise<ITask> {
         const task = await TaskEntity.findById(ID);
 
         if (!task) {
@@ -23,7 +24,7 @@ class TaskService {
         return task;
     }
 
-    public async create(taskInput: TaskDTO) {
+    public async create(taskInput: TaskDTO): Promise<ITask> {
         await validateDTO(taskInput, TaskDTO);
 
         const create = new TaskEntity({
@@ -40,7 +41,7 @@ class TaskService {
         };
     }
 
-    public async update(ID, taskInput: TaskDTO) {
+    public async update(ID, taskInput: TaskDTO): Promise<number> {
         await validateDTO(taskInput, TaskDTO);
 
         const wasUpdated = (
@@ -57,7 +58,7 @@ class TaskService {
         return wasUpdated;
     }
 
-    public async delete(ID) {
+    public async delete(ID): Promise<number> {
         const wasDeleted = (await TaskEntity.deleteOne({ _id: ID })).deletedCount;
 
         return wasDeleted;

@@ -11,8 +11,8 @@ dotenv.config();
 const server = new ApolloServer({
     resolvers,
     typeDefs,
-    context: () => ({ TaskService: new TaskService() }),
-    formatError: (error: GraphQLError) => {
+    context: (): { TaskService: TaskService } => ({ TaskService: new TaskService() }),
+    formatError: (error: GraphQLError): { message: string; code: string | unknown; details: unknown } => {
         const { message, extensions } = error;
 
         if (extensions?.exception?.stacktrace) {
@@ -34,6 +34,6 @@ mongoose
 
         return server.listen({ port: 5000 });
     })
-    .then((res) => {
+    .then((res: { url: string }) => {
         console.log(`Server is running on port ${res.url}`);
     });

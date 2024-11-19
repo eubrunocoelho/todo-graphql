@@ -1,6 +1,6 @@
-import { validate } from 'class-validator';
-import { plainToInstance } from 'class-transformer';
 import { ApolloError } from 'apollo-server';
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
 
 async function validateDTO(dto: any, dtoClass: any) {
     const object = plainToInstance(dtoClass, dto);

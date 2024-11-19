@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+
 import ITask from './task.interface';
 
 const taskSchema = new Schema<ITask>(

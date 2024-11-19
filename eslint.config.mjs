@@ -1,7 +1,8 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import eslintPluginImport from 'eslint-plugin-import';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default [
     {
@@ -13,7 +14,19 @@ export default [
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
     {
-        rules: {},
+        plugins: {
+            import: eslintPluginImport,
+        },
+        rules: {
+            'import/order': [
+                'error',
+                {
+                    groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+                    alphabetize: { order: 'asc', caseInsensitive: true },
+                    'newlines-between': 'always',
+                },
+            ],
+        },
     },
     eslintPluginPrettierRecommended,
 ];

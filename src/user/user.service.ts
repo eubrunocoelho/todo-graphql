@@ -1,4 +1,4 @@
-import validateDTO from '../utils/validation.utils';
+import validateDTO from '../utils/validation.util';
 
 import UserDTO from './user.dto';
 import UserEntity from './user.entity';

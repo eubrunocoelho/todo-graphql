@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-server';
 
-import validateDTO from '../utils/validation.utils';
+import validateDTO from '../utils/validation.util';
 
 import TaskDTO from './task.dto';
 import TaskEntity from './task.entity';

@@ -1,7 +1,10 @@
 import { ApolloError } from 'apollo-server';
-import { TaskDTO, TaskStatusEnum } from './task.dto';
-import TaskEntity from './task.entity';
+
 import validateDTO from '../utils/validation.utils';
+
+import TaskDTO from './task.dto';
+import TaskEntity from './task.entity';
+import TaskStatusEnum from './task.status.enum';
 
 class TaskService {
     public async findAll() {

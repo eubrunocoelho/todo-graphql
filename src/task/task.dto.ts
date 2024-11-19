@@ -1,9 +1,6 @@
 import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
-enum TaskStatusEnum {
-    TO_DO = 'TO_DO',
-    DONE = 'DONE',
-}
+import TaskStatusEnum from './task.status.enum';
 
 class TaskDTO {
     @IsString()
@@ -21,4 +18,4 @@ class TaskDTO {
     status: TaskStatusEnum;
 }
 
-export { TaskStatusEnum, TaskDTO };
+export default TaskDTO;

@@ -15,9 +15,9 @@ const server = new ApolloServer({
     formatError: (error: GraphQLError): { message: string; code: string | unknown; details: unknown } => {
         const { message, extensions } = error;
 
-        if (extensions?.exception?.stacktrace) {
-            delete extensions.exception.stacktrace;
-        }
+        // if (extensions?.exception?.stacktrace) {
+        //     delete extensions.exception.stacktrace;
+        // }
 
         return {
             message,

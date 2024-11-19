@@ -13,7 +13,7 @@ const validateDTO = async <T extends object>(dto: T, dtoClass: { new (): T }): P
             return constraints.join(', ');
         });
 
-        throw new ApolloError(formattedErrors.join('; '), 'VALIDATION_ERRORS');
+        throw new ApolloError(formattedErrors.join('; '), 'VALIDATION_ERROR');
     }
 };
 

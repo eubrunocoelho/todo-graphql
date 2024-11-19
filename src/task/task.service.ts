@@ -42,26 +42,30 @@ class TaskService {
     }
 
     public async update(ID, taskInput: TaskDTO): Promise<number> {
-        await validateDTO(taskInput, TaskDTO);
+        if (await this.findOne(ID)) {
+            await validateDTO(taskInput, TaskDTO);
 
-        const wasUpdated = (
-            await TaskEntity.updateOne(
-                { _id: ID },
-                {
-                    name: taskInput.name,
-                    description: taskInput.description,
-                    status: taskInput.status,
-                },
-            )
-        ).modifiedCount;
+            const wasUpdated = (
+                await TaskEntity.updateOne(
+                    { _id: ID },
+                    {
+                        name: taskInput.name,
+                        description: taskInput.description,
+                        status: taskInput.status,
+                    },
+                )
+            ).modifiedCount;
 
-        return wasUpdated;
+            return wasUpdated;
+        }
     }
 
     public async delete(ID): Promise<number> {
-        const wasDeleted = (await TaskEntity.deleteOne({ _id: ID })).deletedCount;
+        if (await this.findOne(ID)) {
+            const wasDeleted = (await TaskEntity.deleteOne({ _id: ID })).deletedCount;
 
-        return wasDeleted;
+            return wasDeleted;
+        }
     }
 }
 

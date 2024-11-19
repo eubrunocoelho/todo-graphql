@@ -5,13 +5,17 @@ import mongoose from 'mongoose';
 
 import { resolvers, typeDefs } from './graphql';
 import TaskService from './task/task.service';
+import UserService from './user/user.service';
 
 dotenv.config();
 
 const server = new ApolloServer({
     resolvers,
     typeDefs,
-    context: (): { TaskService: TaskService } => ({ TaskService: new TaskService() }),
+    context: (): { taskService: TaskService; userService: UserService } => ({
+        taskService: new TaskService(),
+        userService: new UserService(),
+    }),
     formatError: (error: GraphQLError): { message: string; code: string | unknown; details: unknown } => {
         const { message, extensions } = error;
 

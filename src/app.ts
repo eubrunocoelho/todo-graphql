@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { GraphQLError } from 'graphql';
 import mongoose from 'mongoose';
 
+import AuthService from './auth/auth.service';
 import { resolvers, typeDefs } from './graphql';
 import TaskService from './task/task.service';
 import UserService from './user/user.service';
@@ -12,9 +13,10 @@ dotenv.config();
 const server = new ApolloServer({
     resolvers,
     typeDefs,
-    context: (): { taskService: TaskService; userService: UserService } => ({
+    context: (): { taskService: TaskService; userService: UserService; authService: AuthService } => ({
         taskService: new TaskService(),
         userService: new UserService(),
+        authService: new AuthService(),
     }),
     formatError: (error: GraphQLError): { message: string; code: string | unknown; details: unknown } => {
         const { message, extensions } = error;

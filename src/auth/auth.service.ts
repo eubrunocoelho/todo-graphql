@@ -3,8 +3,10 @@ import bcrypt from 'bcrypt';
 
 import UserEntity from '../user/user.entity';
 
+import IAuth from './auth.interface';
+
 class AuthService {
-    public async signIn(email: string, password: string) {
+    public async signIn(email: string, password: string): Promise<IAuth> {
         const foundUser = await UserEntity.findOne({ email });
 
         if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {

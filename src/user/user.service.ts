@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 import validateDTO from '../utils/validation.util';
 
 import UserDTO from './user.dto';
@@ -11,7 +13,7 @@ class UserService {
         const create = new UserEntity({
             name: userInput.name,
             email: userInput.email,
-            password: userInput.password,
+            password: bcrypt.hashSync(userInput.password, 10),
         });
 
         const response = await create.save();

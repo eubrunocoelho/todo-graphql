@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-server';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import UserEntity from '../user/user.entity';
 
@@ -13,10 +14,16 @@ class AuthService {
             throw new ApolloError(`Invalid credentials.`, 'INVALID_CREDENTIALS');
         }
 
+        const payload = { sub: foundUser._id, name: foundUser.name, email: foundUser.email };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const { password: _, ...userWithoutPassword } = foundUser.toObject();
 
-        return userWithoutPassword;
+        return {
+            ...userWithoutPassword,
+            token,
+        };
     }
 }
 

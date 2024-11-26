@@ -1,11 +1,15 @@
 import jwt from 'jsonwebtoken';
 
-const verifyToken = (token: string): any => {
+import jwtPayload from './jwt.payload.type';
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const jwtValidate = (token: string): jwtPayload | null => {
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
             return decoded;
-        } catch (error) {
+        } catch (_) {
             return null;
         }
     }
@@ -13,4 +17,4 @@ const verifyToken = (token: string): any => {
     return null;
 };
 
-export default verifyToken;
+export default jwtValidate;

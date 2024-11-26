@@ -1,5 +1,6 @@
 import { ApolloError, AuthenticationError } from 'apollo-server';
 
+import jwtPayload from '../jwt/jwt.payload.type';
 import validateDTO from '../utils/validation.util';
 
 import TaskDTO from './task.dto';
@@ -8,8 +9,10 @@ import ITask from './task.interface';
 import TaskStatusEnum from './task.status.enum';
 
 class TaskService {
-    public async findAll(context): Promise<ITask[]> {
-        if (!context.user) {
+    constructor(private authUser: jwtPayload | null) {}
+
+    public async findAll(): Promise<ITask[]> {
+        if (!this.authUser) {
             throw new AuthenticationError('Unauthorized');
         }
 
@@ -19,6 +22,10 @@ class TaskService {
     }
 
     public async findOne(ID): Promise<ITask> {
+        if (!this.authUser) {
+            throw new AuthenticationError('Unauthorized');
+        }
+
         const task = await TaskEntity.findById(ID);
 
         if (!task) {
@@ -29,6 +36,10 @@ class TaskService {
     }
 
     public async create(taskInput: TaskDTO): Promise<ITask> {
+        if (!this.authUser) {
+            throw new AuthenticationError('Unauthorized');
+        }
+
         await validateDTO(taskInput, TaskDTO);
 
         const create = new TaskEntity({
@@ -46,6 +57,10 @@ class TaskService {
     }
 
     public async update(ID, taskInput: TaskDTO): Promise<number> {
+        if (!this.authUser) {
+            throw new AuthenticationError('Unauthorized');
+        }
+
         if (await this.findOne(ID)) {
             await validateDTO(taskInput, TaskDTO);
 
@@ -65,6 +80,10 @@ class TaskService {
     }
 
     public async delete(ID): Promise<number> {
+        if (!this.authUser) {
+            throw new AuthenticationError('Unauthorized');
+        }
+
         if (await this.findOne(ID)) {
             const wasDeleted = (await TaskEntity.deleteOne({ _id: ID })).deletedCount;
 

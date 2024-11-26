@@ -5,22 +5,30 @@ import mongoose from 'mongoose';
 
 import AuthService from './auth/auth.service';
 import { resolvers, typeDefs } from './graphql';
+import jwtPayload from './jwt/jwt.payload.type';
+import jwtValidate from './jwt/jwt.validate';
 import TaskService from './task/task.service';
 import UserService from './user/user.service';
-import verifyToken from './utils/verify.token.util';
 
 dotenv.config();
 
 const server = new ApolloServer({
     resolvers,
     typeDefs,
-    context: ({ req }): { user: any; taskService: TaskService; userService: UserService; authService: AuthService } => {
+    context: ({
+        req,
+    }): {
+        authUser: jwtPayload | null;
+        taskService: TaskService;
+        userService: UserService;
+        authService: AuthService;
+    } => {
         const authHeader = req.headers.authorization || '';
-        const user = authHeader ? verifyToken(authHeader) : null;
+        const authUser = authHeader ? jwtValidate(authHeader) : null;
 
         return {
-            user,
-            taskService: new TaskService(),
+            authUser,
+            taskService: new TaskService(authUser),
             userService: new UserService(),
             authService: new AuthService(),
         };
@@ -28,9 +36,9 @@ const server = new ApolloServer({
     formatError: (error: GraphQLError): { message: string; code: string | unknown; details: unknown } => {
         const { message, extensions } = error;
 
-        // if (extensions?.exception?.stacktrace) {
-        //     delete extensions.exception.stacktrace;
-        // }
+        if (process.env.STACKTRACE == 'false' && extensions?.exception?.stacktrace) {
+            delete extensions.exception.stacktrace;
+        }
 
         return {
             message,
@@ -41,7 +49,7 @@ const server = new ApolloServer({
 });
 
 mongoose
-    .connect(process.env.MONGO_DB_URL as string)
+    .connect(process.env.MONGODB_URL as string)
     .then(() => {
         console.log('MongoDB connected successfully');
 

@@ -6,6 +6,7 @@ import UserEntity from '../user/user.entity';
 
 import IAuth from './auth.interface';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 class AuthService {
     public async signIn(email: string, password: string): Promise<IAuth> {
         const foundUser = await UserEntity.findOne({ email });
@@ -17,7 +18,6 @@ class AuthService {
         const payload = { sub: foundUser._id, name: foundUser.name, email: foundUser.email };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
-        /* eslint-disable @typescript-eslint/no-unused-vars */
         const { password: _, ...userWithoutPassword } = foundUser.toObject();
 
         return {

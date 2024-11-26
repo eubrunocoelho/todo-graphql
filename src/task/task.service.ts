@@ -1,4 +1,4 @@
-import { ApolloError } from 'apollo-server';
+import { ApolloError, AuthenticationError } from 'apollo-server';
 
 import validateDTO from '../utils/validation.util';
 
@@ -8,7 +8,11 @@ import ITask from './task.interface';
 import TaskStatusEnum from './task.status.enum';
 
 class TaskService {
-    public async findAll(): Promise<ITask[]> {
+    public async findAll(context): Promise<ITask[]> {
+        if (!context.user) {
+            throw new AuthenticationError('Unauthorized');
+        }
+
         const tasks = await TaskEntity.find();
 
         return tasks;

@@ -7,17 +7,24 @@ import AuthService from './auth/auth.service';
 import { resolvers, typeDefs } from './graphql';
 import TaskService from './task/task.service';
 import UserService from './user/user.service';
+import verifyToken from './utils/verify.token.util';
 
 dotenv.config();
 
 const server = new ApolloServer({
     resolvers,
     typeDefs,
-    context: (): { taskService: TaskService; userService: UserService; authService: AuthService } => ({
-        taskService: new TaskService(),
-        userService: new UserService(),
-        authService: new AuthService(),
-    }),
+    context: ({ req }): { user: any; taskService: TaskService; userService: UserService; authService: AuthService } => {
+        const authHeader = req.headers.authorization || '';
+        const user = authHeader ? verifyToken(authHeader) : null;
+
+        return {
+            user,
+            taskService: new TaskService(),
+            userService: new UserService(),
+            authService: new AuthService(),
+        };
+    },
     formatError: (error: GraphQLError): { message: string; code: string | unknown; details: unknown } => {
         const { message, extensions } = error;
 

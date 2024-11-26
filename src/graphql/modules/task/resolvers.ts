@@ -5,7 +5,7 @@ const resolvers = {
         },
 
         async allTasks(_, args, context) {
-            return await context.taskService.findAll();
+            return await context.taskService.findAll(context);
         },
     },
     Mutation: {

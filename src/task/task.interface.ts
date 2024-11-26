@@ -1,11 +1,11 @@
-import { Types } from 'mongoose';
+import TaskUserType from './task.user.type';
 
 interface ITask extends Document {
     _id: string;
     name: string;
     description: string;
     status: string;
-    user: Types.ObjectId;
+    user: TaskUserType;
     createdAt: Date;
     updatedAt: Date;
 }

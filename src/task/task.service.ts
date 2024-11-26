@@ -16,7 +16,7 @@ class TaskService {
             throw new AuthenticationError('Unauthorized');
         }
 
-        const tasks = await TaskEntity.find();
+        const tasks = await TaskEntity.find({ user: this.authUser.sub }).populate('user');
 
         return tasks;
     }
@@ -26,10 +26,16 @@ class TaskService {
             throw new AuthenticationError('Unauthorized');
         }
 
-        const task = await TaskEntity.findById(ID);
+        const task = await TaskEntity.findById(ID).populate('user');
 
         if (!task) {
             throw new ApolloError(`Task with ID ${ID} not found.`, 'TASK_NOT_FOUND', { ID });
+        }
+
+        const isOwner = await this.checkIfUserOwnsTask(ID, this.authUser.sub);
+
+        if (!isOwner) {
+            throw new AuthenticationError('You do not have permission to access this task');
         }
 
         return task;
@@ -60,6 +66,12 @@ class TaskService {
         }
 
         if (await this.findOne(ID)) {
+            const isOwner = await this.checkIfUserOwnsTask(ID, this.authUser.sub);
+
+            if (!isOwner) {
+                throw new AuthenticationError('You do not have permission to access this task');
+            }
+
             await validateDTO(taskInput, TaskDTO);
 
             const wasUpdated = (
@@ -84,10 +96,26 @@ class TaskService {
         }
 
         if (await this.findOne(ID)) {
+            const isOwner = await this.checkIfUserOwnsTask(ID, this.authUser.sub);
+
+            if (!isOwner) {
+                throw new AuthenticationError('You do not have permission to access this task');
+            }
+
             const wasDeleted = (await TaskEntity.deleteOne({ _id: ID })).deletedCount;
 
             return wasDeleted;
         }
+    }
+
+    public async checkIfUserOwnsTask(ID: string, authID: string) {
+        const task = await TaskEntity.findById(ID).populate('user');
+
+        if (task.user._id.toString() !== authID.toString()) {
+            return false;
+        }
+
+        return true;
     }
 }
 

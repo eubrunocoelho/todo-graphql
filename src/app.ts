@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 import AuthService from './auth/auth.service';
 import { resolvers, typeDefs } from './graphql';
-import jwtPayload from './jwt/jwt.payload.type';
+import jwtPayloadType from './jwt/jwt.payload.type';
 import jwtValidate from './jwt/jwt.validate';
 import TaskService from './task/task.service';
 import UserService from './user/user.service';
@@ -18,7 +18,7 @@ const server = new ApolloServer({
     context: ({
         req,
     }): {
-        authUser: jwtPayload | null;
+        authUser: jwtPayloadType | null;
         taskService: TaskService;
         userService: UserService;
         authService: AuthService;

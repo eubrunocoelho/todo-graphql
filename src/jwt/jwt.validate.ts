@@ -1,20 +1,21 @@
 import jwt from 'jsonwebtoken';
 
-import jwtPayload from './jwt.payload.type';
+import jwtPayloadType from './jwt.payload.type';
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const jwtValidate = (token: string): jwtPayload | null => {
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-            return decoded;
-        } catch (_) {
-            return null;
-        }
+const jwtValidate = (token: string): jwtPayloadType | null => {
+    if (!token) {
+        return null;
     }
 
-    return null;
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+
+        return decoded as jwtPayloadType;
+    } catch (error) {
+        console.error('JWT validation failed:', error);
+
+        return null;
+    }
 };
 
 export default jwtValidate;

@@ -46,14 +46,12 @@ class TaskService {
             name: taskInput.name,
             description: taskInput.description,
             status: taskInput.status || TaskStatusEnum.TO_DO,
+            user: this.authUser.sub,
         });
 
         const response = await create.save();
 
-        return {
-            ID: response.id,
-            ...response.toObject(),
-        };
+        return response;
     }
 
     public async update(ID, taskInput: TaskDTO): Promise<number> {
@@ -71,6 +69,7 @@ class TaskService {
                         name: taskInput.name,
                         description: taskInput.description,
                         status: taskInput.status,
+                        user: this.authUser.sub,
                     },
                 )
             ).modifiedCount;

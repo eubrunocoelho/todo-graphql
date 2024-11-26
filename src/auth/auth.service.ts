@@ -22,6 +22,7 @@ class AuthService {
 
         return {
             ...userWithoutPassword,
+            _id: foundUser._id.toString(),
             token,
         };
     }

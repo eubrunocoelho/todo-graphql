@@ -1,5 +1,5 @@
 interface IAuth {
-    ID: string;
+    _id: string;
     name: string;
     email: string;
     token: string;

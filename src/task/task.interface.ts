@@ -1,8 +1,11 @@
+import { Types } from 'mongoose';
+
 interface ITask extends Document {
-    ID: string;
+    _id: string;
     name: string;
     description: string;
     status: string;
+    user: Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
 }

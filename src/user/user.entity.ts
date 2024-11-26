@@ -4,7 +4,7 @@ import IUser from './user.interface';
 
 const userSchema = new Schema<IUser>(
     {
-        name: { type: String, requird: true },
+        name: { type: String, required: true },
         email: { type: String, required: true },
         password: { type: String, required: true },
     },
@@ -13,6 +13,6 @@ const userSchema = new Schema<IUser>(
     },
 );
 
-const UserEntity = model<IUser>('User', userSchema);
+const UserEntity = model<IUser & Document>('User', userSchema);
 
 export default UserEntity;

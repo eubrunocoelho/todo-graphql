@@ -18,10 +18,7 @@ class UserService {
 
         const response = await create.save();
 
-        return {
-            ID: response.id,
-            ...response.toObject(),
-        };
+        return response.toObject();
     }
 }
 

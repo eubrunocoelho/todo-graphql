@@ -3,11 +3,18 @@ enum TaskStatusEnum {
     DONE
 }
 
+type UserTask {
+    _id: String
+    name: String
+    email: String
+}
+
 type Task {
     _id: String
     name: String
     description: String
     status: TaskStatusEnum
+    user: UserTask
     createdAt: String
     updatedAt: String
 }

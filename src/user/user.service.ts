@@ -8,18 +8,14 @@ import UserEntity from './user.entity';
 import IUser from './user.interface';
 
 class UserService {
-    public async findOne(ID): Promise<IUser> {
-        const user = await UserEntity.findById(ID);
-
-        if (!user) {
-            throw new ApolloError(`User with ID ${ID} not found.`, 'USER_NOT_FOUND', { ID });
-        }
-
-        return user;
-    }
-
     public async create(userInput: UserDTO): Promise<IUser> {
         await validateDTO(userInput, UserDTO);
+
+        const isUnique = await this.checkIfEmailIsUnique(userInput.email);
+
+        if (!isUnique) {
+            throw new ApolloError(`O e-mail não é único`);
+        }
 
         const create = new UserEntity({
             name: userInput.name,
@@ -30,6 +26,14 @@ class UserService {
         const response = await create.save();
 
         return response.toObject();
+    }
+
+    public async checkIfEmailIsUnique(email: string): Promise<boolean> {
+        const user = await UserEntity.find({ email: email });
+
+        if (user.length) return false;
+
+        return true;
     }
 }
 

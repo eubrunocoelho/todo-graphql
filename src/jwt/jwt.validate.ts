@@ -12,7 +12,7 @@ const jwtValidate = (token: string): jwtPayloadType | null => {
 
         return decoded as jwtPayloadType;
     } catch (error) {
-        console.error('JWT validation failed:', error);
+        console.error('Validação de JWT falhou:', error);
 
         return null;
     }

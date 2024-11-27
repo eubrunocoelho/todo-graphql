@@ -14,19 +14,19 @@ class UserService {
 
     public async findOne(ID: string): Promise<IUser> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         const user = await UserEntity.findById(ID);
 
         if (!user) {
-            throw new ApolloError(`User with ID ${ID} not found.`, 'USER_NOT_FOUND', { ID });
+            throw new ApolloError(`O usuário com o ID ${ID} não existe.`, 'USER_NOT_FOUND', { ID });
         }
 
         const isOwner = await this.checkIfUserOwnsUser(ID, this.authUser.sub);
 
         if (!isOwner) {
-            throw new AuthenticationError('You do not have permission to access this user');
+            throw new AuthenticationError('Você não tem permissão para acessar este usuário.');
         }
 
         return user;
@@ -38,7 +38,7 @@ class UserService {
         const isUnique = await this.checkIfEmailIsUnique(userInput.email);
 
         if (!isUnique) {
-            throw new ApolloError(`O e-mail não é único`);
+            throw new ApolloError('Este endereço de e-mail já está cadastrado.');
         }
 
         const create = new UserEntity({
@@ -54,14 +54,14 @@ class UserService {
 
     public async update(ID: string, userInput: UserUpdateDTO): Promise<number> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         if (await this.findOne(ID)) {
             const isOwner = await this.checkIfUserOwnsUser(ID, this.authUser.sub);
 
             if (!isOwner) {
-                throw new AuthenticationError('You do not have permission to access this task');
+                throw new AuthenticationError('Você não tem permissão para acessar este usuário.');
             }
 
             await validateDTO(userInput, UserUpdateDTO);

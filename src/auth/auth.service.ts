@@ -12,7 +12,7 @@ class AuthService {
         const foundUser = await UserEntity.findOne({ email });
 
         if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
-            throw new ApolloError(`Invalid credentials.`, 'INVALID_CREDENTIALS');
+            throw new ApolloError(`Credenciais inválidas.`, 'INVALID_CREDENTIALS');
         }
 
         const payload = { sub: foundUser._id, name: foundUser.name, email: foundUser.email };

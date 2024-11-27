@@ -49,12 +49,12 @@ const server = new ApolloServer({
 });
 
 mongoose
-    .connect(process.env.MONGODB_URL as string)
+    .connect(process.env.DB_URL as string)
     .then(() => {
-        console.log('MongoDB connected successfully');
+        console.log('MongoDB conectado com sucesso!');
 
         return server.listen({ port: 5000 });
     })
     .then((res: { url: string }) => {
-        console.log(`Server is running on port ${res.url}`);
+        console.log(`Servidor escutando na porta ${res.url}`);
     });

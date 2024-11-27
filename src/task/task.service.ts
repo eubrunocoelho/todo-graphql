@@ -13,7 +13,7 @@ class TaskService {
 
     public async findAll(): Promise<ITask[]> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         const tasks = await TaskEntity.find({ user: this.authUser.sub }).populate('user');
@@ -23,19 +23,19 @@ class TaskService {
 
     public async findOne(ID: string): Promise<ITask> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         const task = await TaskEntity.findById(ID).populate('user');
 
         if (!task) {
-            throw new ApolloError(`Task with ID ${ID} not found.`, 'TASK_NOT_FOUND', { ID });
+            throw new ApolloError(`A tarefa com o ID ${ID} não existe.`, 'TASK_NOT_FOUND', { ID });
         }
 
         const isOwner = await this.checkIfUserOwnsTask(ID, this.authUser.sub);
 
         if (!isOwner) {
-            throw new AuthenticationError('You do not have permission to access this task');
+            throw new AuthenticationError('Você não tem permissão para acessar está tarefa.');
         }
 
         return task;
@@ -43,7 +43,7 @@ class TaskService {
 
     public async create(taskInput: TaskDTO): Promise<ITask> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         await validateDTO(taskInput, TaskDTO);
@@ -62,14 +62,14 @@ class TaskService {
 
     public async update(ID: string, taskInput: TaskDTO): Promise<number> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         if (await this.findOne(ID)) {
             const isOwner = await this.checkIfUserOwnsTask(ID, this.authUser.sub);
 
             if (!isOwner) {
-                throw new AuthenticationError('You do not have permission to access this task');
+                throw new AuthenticationError('Você não tem permissão para acessar está tarefa.');
             }
 
             await validateDTO(taskInput, TaskDTO);
@@ -92,14 +92,14 @@ class TaskService {
 
     public async delete(ID: string): Promise<number> {
         if (!this.authUser) {
-            throw new AuthenticationError('Unauthorized');
+            throw new AuthenticationError('Não autorizado.');
         }
 
         if (await this.findOne(ID)) {
             const isOwner = await this.checkIfUserOwnsTask(ID, this.authUser.sub);
 
             if (!isOwner) {
-                throw new AuthenticationError('You do not have permission to access this task');
+                throw new AuthenticationError('Você não tem permissão para acessar está tarefa.');
             }
 
             const wasDeleted = (await TaskEntity.deleteOne({ _id: ID })).deletedCount;

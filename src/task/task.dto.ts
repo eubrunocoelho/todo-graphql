@@ -3,17 +3,19 @@ import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-valida
 import TaskStatusEnum from './task.status.enum';
 
 class TaskDTO {
-    @IsString()
-    @MinLength(3)
-    @MaxLength(256)
+    @IsString({ message: 'O nome da tarefa deve ser uma string.' })
+    @MinLength(3, { message: 'O nome da tarefa deve ter pelo menos 3 caracteres.' })
+    @MaxLength(256, { message: 'O nome da tarefa deve ter no máximo 256 caracters,' })
     public name: string;
 
-    @IsString()
-    @MinLength(5)
-    @MaxLength(1024)
+    @IsString({ message: 'A descrição da tarefa deve ser uma string.' })
+    @MinLength(5, { message: 'A descrição da tarefa deve ter pelo menos 5 caracteres.' })
+    @MaxLength(1024, { message: 'A descrição da tarefa está muito longa' })
     public description: string;
 
-    @IsEnum(TaskStatusEnum)
+    @IsEnum(TaskStatusEnum, {
+        message: `O status da tarefa deve ser um dos seguintes valores: ${Object.values(TaskStatusEnum).join(', ')}.`,
+    })
     @IsOptional()
     public status: TaskStatusEnum;
 }

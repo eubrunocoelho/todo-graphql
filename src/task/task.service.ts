@@ -108,7 +108,7 @@ class TaskService {
         }
     }
 
-    public async checkIfUserOwnsTask(ID: string, authID: string) {
+    public async checkIfUserOwnsTask(ID: string, authID: string): Promise<boolean> {
         const task = await TaskEntity.findById(ID).populate('user');
 
         if (task.user._id.toString() !== authID.toString()) {

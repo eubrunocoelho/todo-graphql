@@ -21,7 +21,7 @@ class TaskService {
         return tasks;
     }
 
-    public async findOne(ID): Promise<ITask> {
+    public async findOne(ID: string): Promise<ITask> {
         if (!this.authUser) {
             throw new AuthenticationError('Unauthorized');
         }
@@ -60,7 +60,7 @@ class TaskService {
         return response;
     }
 
-    public async update(ID, taskInput: TaskDTO): Promise<number> {
+    public async update(ID: string, taskInput: TaskDTO): Promise<number> {
         if (!this.authUser) {
             throw new AuthenticationError('Unauthorized');
         }
@@ -90,7 +90,7 @@ class TaskService {
         }
     }
 
-    public async delete(ID): Promise<number> {
+    public async delete(ID: string): Promise<number> {
         if (!this.authUser) {
             throw new AuthenticationError('Unauthorized');
         }

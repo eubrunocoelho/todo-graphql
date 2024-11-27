@@ -1,3 +1,4 @@
+# YOU CAN REFACTOR
 type User {
     _id: String
     name: String

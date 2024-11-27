@@ -14,7 +14,7 @@
 
 ## Resumo
 
-**API GraphQL** desenvolvido à fim de fixação de conhecimento em `TypeScript`, `Node.js`, `GraphQL` e `MongoDB`. É uma **API** de pendências onde as tarefas estão disponibilizadas apenas para seus próprios usuários e também um sistema de autenticação usando **JWT** para garantir a segurança dos dados.
+**API GraphQL** desenvolvido à fim de fixação de conhecimento em `TypeScript`, `Node.js`, `GraphQL` e `MongoDB`. É uma **API** de pendências onde as tarefas estão disponibilizadas apenas para seus próprios usuários, contando também com um sistema de autenticação **JWT** para garantir a segurança dos dados.
 
 ## Schemas
 

@@ -3,12 +3,12 @@ import dotenv from 'dotenv';
 import { GraphQLError } from 'graphql';
 import mongoose from 'mongoose';
 
-import AuthService from './auth/auth.service';
 import { resolvers, typeDefs } from './graphql';
-import jwtPayloadType from './jwt/jwt.payload.type';
-import jwtValidate from './jwt/jwt.validate';
-import TaskService from './task/task.service';
-import UserService from './user/user.service';
+import AuthService from './modules/auth/auth.service';
+import jwtPayloadType from './modules/jwt/jwt.payload.type';
+import jwtValidate from './modules/jwt/jwt.validate';
+import TaskService from './modules/task/task.service';
+import UserService from './modules/user/user.service';
 
 dotenv.config();
 

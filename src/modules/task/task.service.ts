@@ -1,7 +1,7 @@
 import { ApolloError, AuthenticationError } from 'apollo-server';
 
+import validateDTO from '../../utils/validation.util';
 import jwtPayload from '../jwt/jwt.payload.type';
-import validateDTO from '../utils/validation.util';
 
 import TaskDTO from './task.dto';
 import TaskEntity from './task.entity';

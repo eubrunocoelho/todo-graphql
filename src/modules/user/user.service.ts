@@ -1,8 +1,8 @@
 import { ApolloError, AuthenticationError } from 'apollo-server';
 import bcrypt from 'bcrypt';
 
+import validateDTO from '../../utils/validation.util';
 import jwtPayloadType from '../jwt/jwt.payload.type';
-import validateDTO from '../utils/validation.util';
 
 import UserDTO from './user.dto';
 import UserEntity from './user.entity';

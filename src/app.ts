@@ -29,7 +29,7 @@ const server = new ApolloServer({
         return {
             authUser,
             taskService: new TaskService(authUser),
-            userService: new UserService(),
+            userService: new UserService(authUser),
             authService: new AuthService(),
         };
     },
